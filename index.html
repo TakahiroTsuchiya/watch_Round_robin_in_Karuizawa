@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>軽井沢ラウンドロビン</title>
+    <script type=text/javascript>
+		var video_on = false;
+		var frame_url = "http://202.215.147.214:8002/-wvhttp-01-/image.cgi?v=jpg:640x480&seq=";
+		var fcount = 0;
+		var fcount_max = 5400;
+		function start_stop() {
+			if (video_on) {
+				do_stop();
+			} else {
+				do_start();
+			}
+		}
+		function do_start() {
+			video_on = true;
+			document.getElementById("video").onload = get_frame;
+			document.getElementById("video").src = frame_url + Math.random();
+			document.getElementById("video").oncontextmenu = function() {return false}; // disable contextmenu
+		}
+		function do_stop() {
+			video_on = false;
+			fcount = 0;
+			document.getElementById("video").onload = null;
+			document.getElementById("video").oncontextmenu = function() {return true}; // enable contextmenu
+		}
+		function get_frame() {
+			if (video_on) {
+				if (fcount < fcount_max) {
+					document.getElementById("video").src = frame_url + Math.random();
+					fcount = fcount+1;
+				} else {
+					do_stop();
+					// Add Loop
+					do_start();
+				}
+			}
+		}
+    </script>
+  </head>
+  <body onload="start_stop();">
+    <content>
+		<div id="image">
+			<font size="2">
+				<img id="video" alt="動画表示" src="" width="640" height="480">
+			</font>
+		</div>
+    </content>
+  </body>
+</html>
